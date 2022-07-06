@@ -37,20 +37,20 @@ public class ApplicationDbContextInitialiser
         }
     }
 
-    public async Task SeedAsync()
+    public async Task FillDataAsync()
     {
         try
         {
-            await TrySeedAsync();
+            
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "An error occurred while seeding the database.");
+            _logger.LogError(ex, "An error occurred while filling the database.");
             throw;
         }
     }
 
-    public async Task TrySeedAsync()
+    /*public async Task TrySeedAsync()
     {
         // Default roles
         var administratorRole = new IdentityRole("Administrator");
@@ -70,7 +70,7 @@ public class ApplicationDbContextInitialiser
         }
 
         // Default data
-        // Seed, if necessary
+        // TODO-ZH: Load from json
         if (!_context.TodoLists.Any())
         {
             _context.TodoLists.Add(new TodoList
@@ -87,5 +87,5 @@ public class ApplicationDbContextInitialiser
 
             await _context.SaveChangesAsync();
         }
-    }
+    }*/
 }

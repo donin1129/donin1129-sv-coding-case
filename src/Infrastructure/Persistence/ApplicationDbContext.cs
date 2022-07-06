@@ -2,51 +2,44 @@
 using SvCodingCase.Application.Common.Interfaces;
 using SvCodingCase.Domain.Entities;
 using SvCodingCase.Infrastructure.Identity;
-using SvCodingCase.Infrastructure.Persistence.Interceptors;
 using Duende.IdentityServer.EntityFramework.Options;
 using MediatR;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using SvCodingCase.Enums;
+using Npgsql;
 
 namespace SvCodingCase.Infrastructure.Persistence;
 
-public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>, IApplicationDbContext
+public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>, IDbContext
 {
-    private readonly IMediator _mediator;
-    private readonly AuditableEntitySaveChangesInterceptor _auditableEntitySaveChangesInterceptor;
 
     public ApplicationDbContext(
         DbContextOptions<ApplicationDbContext> options,
         IOptions<OperationalStoreOptions> operationalStoreOptions,
-        IMediator mediator,
-        AuditableEntitySaveChangesInterceptor auditableEntitySaveChangesInterceptor) 
+        IMediator mediator) 
         : base(options, operationalStoreOptions)
     {
-        _mediator = mediator;
-        _auditableEntitySaveChangesInterceptor = auditableEntitySaveChangesInterceptor;
+        NpgsqlConnection.GlobalTypeMapper.MapEnum<LockType>();
+        NpgsqlConnection.GlobalTypeMapper.MapEnum<MediaType>();
     }
 
-    public DbSet<TodoList> TodoLists => Set<TodoList>();
+    public DbSet<Building> Buildings => Set<Building>();
 
-    public DbSet<TodoItem> TodoItems => Set<TodoItem>();
+    public DbSet<Group> Groups => Set<Group>();
+
+    public DbSet<Lock> Locks => Set<Lock>();
+
+    public DbSet<Media> Medias => Set<Media>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
+        builder.HasPostgresEnum<LockType>();
+        builder.HasPostgresEnum<MediaType>();
+
         builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
         base.OnModelCreating(builder);
-    }
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        optionsBuilder.AddInterceptors(_auditableEntitySaveChangesInterceptor);
-    }
-
-    public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
-    {
-        await _mediator.DispatchDomainEvents(this);
-
-        return await base.SaveChangesAsync(cancellationToken);
     }
 }

@@ -1,4 +1,4 @@
-﻿using SvCodingCase.Application.TodoLists.Commands.CreateTodoList;
+﻿/*using SvCodingCase.Application.TodoLists.Commands.CreateTodoList;
 using SvCodingCase.Application.TodoLists.Commands.DeleteTodoList;
 using SvCodingCase.Application.TodoLists.Commands.UpdateTodoList;
 using SvCodingCase.Application.TodoLists.Queries.ExportTodos;
@@ -12,7 +12,7 @@ namespace SvCodingCase.WebUI.Controllers;
 public class TodoListsController : ApiControllerBase
 {
     [HttpGet]
-    public async Task<ActionResult<TodosVm>> Get()
+    public async Task<ActionResult<GetBuildings>> Get()
     {
         return await Mediator.Send(new GetTodosQuery());
     }
@@ -52,3 +52,4 @@ public class TodoListsController : ApiControllerBase
         return NoContent();
     }
 }
+*/

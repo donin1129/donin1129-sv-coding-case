@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+
+  svcodingcase.db:
+    image: postgres:14.0-alpine3.14
+    container_name: loc.presgre.db
+    command: -c shared_buffers=256MB -c max_connections=105
+    ports:
+      - 54320:5432
+    env_file: 
+      - env/db.env
+    volumes:
+      - svcodingcase.data:/var/lib/postgresql/data
+    networks:
+      - svcodingcase_network_backend
+
+volumes:
+  svcodingcase.data:
+
+networks:
+  svcodingcase_network_backend:
+    name: svcodingcase_network_backend
+    driver: bridge

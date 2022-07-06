@@ -1,4 +1,4 @@
-﻿using SvCodingCase.Application.WeatherForecasts.Queries.GetWeatherForecasts;
+﻿/*using SvCodingCase.Application.WeatherForecasts.Queries.GetWeatherForecasts;
 using Microsoft.AspNetCore.Mvc;
 
 namespace SvCodingCase.WebUI.Controllers;
@@ -11,3 +11,4 @@ public class WeatherForecastController : ApiControllerBase
         return await Mediator.Send(new GetWeatherForecastsQuery());
     }
 }
+*/

@@ -1,4 +1,4 @@
-﻿using System.Runtime.Serialization;
+﻿/*using System.Runtime.Serialization;
 using AutoMapper;
 using SvCodingCase.Application.Common.Mappings;
 using SvCodingCase.Application.Common.Models;
@@ -48,3 +48,4 @@ public class MappingTests
         return FormatterServices.GetUninitializedObject(type);
     }
 }
+*/

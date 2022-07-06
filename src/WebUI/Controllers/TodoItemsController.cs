@@ -1,4 +1,4 @@
-﻿using SvCodingCase.Application.Common.Models;
+﻿/*using SvCodingCase.Application.Common.Models;
 using SvCodingCase.Application.TodoItems.Commands.CreateTodoItem;
 using SvCodingCase.Application.TodoItems.Commands.DeleteTodoItem;
 using SvCodingCase.Application.TodoItems.Commands.UpdateTodoItem;
@@ -58,3 +58,4 @@ public class TodoItemsController : ApiControllerBase
         return NoContent();
     }
 }
+*/
