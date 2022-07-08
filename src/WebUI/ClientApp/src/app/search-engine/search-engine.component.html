@@ -2,14 +2,55 @@
 
 <p>This component demonstrates fetching data from the server as a search engine.</p>
 
-<!--<p *ngIf="!orderedSearchResults"><em>Loading...</em></p>-->
-<p aria-live="polite">Current count: <strong>{{ currentCount }}</strong></p>
-
-<form class="example-form">
-  <mat-form-field class="example-full-width" appearance="fill">
+<div class="example-container">
+  <mat-form-field appearance="fill">
     <mat-label>Search string</mat-label>
-    <input matInput placeholder="Ex. HeadOffice" value={{ searchString }}>
+    <input matInput placeholder="Ex. HeadOffice" [formControl]="searchStringFomControl">
   </mat-form-field>
-</form>
+</div>
 
-<button class="btn btn-primary" (click)="incrementCounter()">Increment</button>
+<button class="btn btn-primary" (click)="search()">Search</button>
+
+<mat-list>
+  <mat-list-item *ngFor="let building of searchResults.buildings">
+    <mat-icon>home</mat-icon>
+    <h3 matLine> {{building.name}} </h3>
+    <p matLine> ShortCut: {{building.shortCut}} </p>
+    <p matLine> Descriptions: {{building.description}} </p>
+  </mat-list-item>
+</mat-list>
+
+<mat-list>
+  <mat-list-item *ngFor="let lock of searchResults.locks">
+    <mat-icon>lock</mat-icon>
+    <h3 matLine> {{lock.name}} </h3>
+    <p matLine *ngIf="lock.type == 0"> Type: Cylinder </p>
+    <p matLine *ngIf="lock.type == 1"> Type: Smart Handle </p>
+    <p matLine> SerialNumber: {{lock.serialNumber}} </p>
+    <p matLine> Floor: {{lock.floor}} </p>
+    <p matLine> RoomNumber: {{lock.roomNumber}} </p>
+    <p matLine *ngIf="lock.description"> Descriptions: {{lock.description}} </p>
+  </mat-list-item>
+</mat-list>
+
+<mat-list>
+  <mat-list-item *ngFor="let group of searchResults.groups">
+    <mat-icon>group</mat-icon>
+    <h3 matLine> {{group.name}} </h3>
+    <p matLine *ngIf="group.description"> Descriptions: {{group.description}} </p>
+  </mat-list-item>
+</mat-list>
+
+<mat-list>
+  <mat-list-item *ngFor="let media of searchResults.media">
+    <mat-icon>vpn_key</mat-icon>
+    <h3 matLine> {{media.serialNumber}} </h3>
+    <p matLine *ngIf="media.type == 0"> Type: Card </p>
+    <p matLine *ngIf="media.type == 1"> Type: Transponder </p>
+    <p matLine *ngIf="media.type == 2"> Type: Transponder with card inlay </p>
+    <p matLine> Owner: {{media.owner}} </p>
+    <p matLine *ngIf="media.description"> Descriptions: {{media.description}} </p>
+  </mat-list-item>
+</mat-list>
+
+

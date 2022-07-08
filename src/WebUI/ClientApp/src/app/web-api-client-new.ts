@@ -8,50 +8,75 @@
 /* eslint-disable */
 // ReSharper disable InconsistentNaming
 
+import { mergeMap as _observableMergeMap, catchError as _observableCatch } from 'rxjs/operators';
+import { Observable, throwError as _observableThrow, of as _observableOf } from 'rxjs';
+import { Injectable, Inject, Optional, InjectionToken } from '@angular/core';
+import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase } from '@angular/common/http';
+
+export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
+
+@Injectable({
+  providedIn: 'root'
+})
+
 export class SearchEngineClient {
-  private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
+  private http: HttpClient;
   private baseUrl: string;
   protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
-  constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
-    this.http = http ? http : window as any;
+  constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+    this.http = http;
     this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
   }
 
-  getDataFileUsingSearchEngine(searchString: string | null | undefined): Promise<DataFileDto> {
+  getDataFileUsingSearchEngine(searchString: string | null | undefined): Observable<DataFileDto> {
     let url_ = this.baseUrl + "/api/SearchEngine?";
     if (searchString !== undefined && searchString !== null)
       url_ += "SearchString=" + encodeURIComponent("" + searchString) + "&";
     url_ = url_.replace(/[?&]$/, "");
 
-    let options_: RequestInit = {
-      method: "GET",
-      headers: {
+    let options_: any = {
+      observe: "response",
+      responseType: "blob",
+      headers: new HttpHeaders({
         "Accept": "application/json"
-      }
+      })
     };
 
-    return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processGetDataFileUsingSearchEngine(_response);
-    });
+    return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_: any) => {
+      return this.processGetDataFileUsingSearchEngine(response_);
+    })).pipe(_observableCatch((response_: any) => {
+      if (response_ instanceof HttpResponseBase) {
+        try {
+          return this.processGetDataFileUsingSearchEngine(response_ as any);
+        } catch (e) {
+          return _observableThrow(e) as any as Observable<DataFileDto>;
+        }
+      } else
+        return _observableThrow(response_) as any as Observable<DataFileDto>;
+    }));
   }
 
-  protected processGetDataFileUsingSearchEngine(response: Response): Promise<DataFileDto> {
+  protected processGetDataFileUsingSearchEngine(response: HttpResponseBase): Observable<DataFileDto> {
     const status = response.status;
-    let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+    const responseBlob =
+      response instanceof HttpResponse ? response.body :
+        (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+    let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } }
     if (status === 200) {
-      return response.text().then((_responseText) => {
+      return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
         let result200: any = null;
         let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
         result200 = DataFileDto.fromJS(resultData200);
-        return result200;
-      });
+        return _observableOf(result200);
+      }));
     } else if (status !== 200 && status !== 204) {
-      return response.text().then((_responseText) => {
+      return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
         return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-      });
+      }));
     }
-    return Promise.resolve<DataFileDto>(null as any);
+    return _observableOf(null as any);
   }
 }
 
@@ -382,9 +407,49 @@ export class ApiException extends Error {
   }
 }
 
-function throwException(message: string, status: number, response: string, headers: { [key: string]: any; }, result?: any): any {
+export class SwaggerException extends Error {
+  override message: string;
+  status: number;
+  response: string;
+  headers: { [key: string]: any; };
+  result: any;
+
+  constructor(message: string, status: number, response: string, headers: { [key: string]: any; }, result: any) {
+    super();
+
+    this.message = message;
+    this.status = status;
+    this.response = response;
+    this.headers = headers;
+    this.result = result;
+  }
+
+  protected isSwaggerException = true;
+
+  static isSwaggerException(obj: any): obj is SwaggerException {
+    return obj.isSwaggerException === true;
+  }
+}
+
+function throwException(message: string, status: number, response: string, headers: { [key: string]: any; }, result?: any): Observable<any> {
   if (result !== null && result !== undefined)
-    throw result;
+    return _observableThrow(result);
   else
-    throw new ApiException(message, status, response, headers, null);
+    return _observableThrow(new SwaggerException(message, status, response, headers, null));
+}
+
+function blobToText(blob: any): Observable<string> {
+  return new Observable<string>((observer: any) => {
+    if (!blob) {
+      observer.next("");
+      observer.complete();
+    } else {
+      let reader = new FileReader();
+      reader.onload = event => {
+        observer.next((event.target as any).result);
+        observer.complete();
+      };
+      reader.readAsText(blob);
+    }
+  });
 }

@@ -42,28 +42,6 @@ app.UseSwaggerUi3(settings =>
     settings.DocumentPath = "/api/swagger_specification_new.json";
 });
 
-/*applicationBuilder.UseSwagger(configure =>
-{
-    configure.RouteTemplate = _apiDocumentName + "/{documentName}/" + taskManagementJson;
-    configure.PreSerializeFilters.Add((swaggerOptions, httpRequest) =>
-    {
-        var openApiServer = httpRequest.ExtractOpenApiServer();
-        swaggerOptions.Servers = new List<OpenApiServer>
-                    {
-                        openApiServer
-                    };
-    });
-});
-applicationBuilder.UseSwaggerUI(configure =>
-{
-    configure.RoutePrefix = _apiDocumentName;
-    configure.SwaggerEndpoint($"/{_apiDocumentName}/{_apiVersion}/{taskManagementJson}", _openApiTitle);
-    configure.OAuthClientId(applicationConfig.OAuth2.Swagger.ClientId);
-    configure.OAuthClientSecret(applicationConfig.OAuth2.Swagger.ClientSecret);
-    configure.OAuthRealm(applicationConfig.OAuth2.Realm);
-    configure.OAuthAppName(applicationConfig.OAuth2.Jwt.ClientId);
-    configure.OAuthUseBasicAuthenticationWithAccessCodeGrant();
-});*/
 
 app.UseRouting();
 

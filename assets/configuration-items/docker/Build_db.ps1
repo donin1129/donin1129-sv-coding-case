@@ -28,12 +28,12 @@ try
     Write-Host "Done! docker compose $files up" -ForegroundColor Green
 
     Set-Location -Path "../../.."
-    $rootSrcDir = "src";
 
-    Write-Host "Start db migration with $migrationFile" -ForegroundColor Green
+    Write-Host "Start db migration" -ForegroundColor Green
     dotnet ef database update --project src\Infrastructure --startup-project src\WebUI
     VerifyExitCode
 
+    Set-Location -Path $dockerDir
 
     Invoke-Expression -Command "docker compose $files down"
 
