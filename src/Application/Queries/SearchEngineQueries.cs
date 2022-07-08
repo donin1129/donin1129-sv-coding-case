@@ -25,6 +25,8 @@ public class SearchEngineQueriesHandler : IRequestHandler<SearchEngineQueries, D
     public async Task<DataFileDto> Handle(SearchEngineQueries request, CancellationToken cancellationToken)
     {
 
+        // TODO-ZD: Implement linq translatable searches to improve performance. 
+
         IQueryable<Building> buildingQuery = _context.Buildings;
         IQueryable<Group> groupQuery = _context.Groups;
         IQueryable<Lock> lockQuery = _context.Locks;

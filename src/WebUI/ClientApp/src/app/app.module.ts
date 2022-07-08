@@ -8,10 +8,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
-import { CounterComponent } from './counter/counter.component';
 import { SearchEngineComponent } from './search-engine/search-engine.component';
-import { FetchDataComponent } from './fetch-data/fetch-data.component';
-import { TodoComponent } from './todo/todo.component';
 import { TokenComponent } from './token/token.component';
 
 import { ApiAuthorizationModule } from 'src/api-authorization/api-authorization.module';
@@ -30,10 +27,7 @@ import { MatIconModule } from '@angular/material/icon'
     AppComponent,
     NavMenuComponent,
     HomeComponent,
-    CounterComponent,
     SearchEngineComponent,
-    FetchDataComponent,
-    TodoComponent,
     TokenComponent
   ],
   imports: [
