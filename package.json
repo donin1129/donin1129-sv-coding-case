@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "@angular-devkit/build-angular": "^14.0.5",
+    "@angular/cdk": "^14.0.4",
+    "@angular/material": "^14.0.4",
+    "@ngtools/webpack": "^14.0.5",
+    "angular-material": "^1.2.5",
+    "postcss-loader": "^7.0.0"
+  }
+}

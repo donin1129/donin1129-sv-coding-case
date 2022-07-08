@@ -9,11 +9,43 @@ public class Building : BaseEntity
 
     public string Name { get; set; }
 
-    /*public Building(string name, string? shortCut, string? description)
+    public int CalcWeight(string searchString)
     {
-        Id = Guid.NewGuid();
-        Name = name;
-        ShortCut = shortCut;
-        Description = description;
-    }*/
+        int score = 0;
+
+        // Full match case
+        if (Name == searchString)
+        {
+            score += 9 * 10; 
+        }
+        // Partial match case
+        else if (Name.Contains(searchString))
+        {
+            score += 9;
+        }
+
+        // Full match case
+        if (ShortCut is not null && ShortCut == searchString)
+        {
+            score += 7 * 10;
+        }
+        // Partial match case
+        else if (ShortCut is not null && ShortCut.Contains(searchString))
+        {
+            score += 9;
+        }
+
+        // Full match case
+        if (Description is not null && Description == searchString)
+        {
+            score += 5 * 10;
+        }
+        // Partial match case
+        else if (Description is not null && Description.Contains(searchString))
+        {
+            score += 5;
+        }
+
+        return score;
+    }
 }

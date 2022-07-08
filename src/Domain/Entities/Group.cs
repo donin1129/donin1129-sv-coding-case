@@ -8,10 +8,32 @@ public class Group : BaseEntity
 
     public string Name { get; set; }
 
-/*    public Group(string name, string? description)
+    public int CalcWeight(string searchString)
     {
-        Id = Guid.NewGuid();
-        Name = name;
-        Description = description;
-    }*/
+        int score = 0;
+
+        // Full match case
+        if (Name == searchString)
+        {
+            score += 9 * 10;
+        }
+        // Partial match case
+        else if (Name.Contains(searchString))
+        {
+            score += 9;
+        }
+
+        // Full match case
+        if (Description is not null && Description == searchString)
+        {
+            score += 5 * 10;
+        }
+        // Partial match case
+        else if (Description is not null && Description.Contains(searchString))
+        {
+            score += 5;
+        }
+
+        return score;
+    }
 }

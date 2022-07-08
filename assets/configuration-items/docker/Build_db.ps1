@@ -30,10 +30,8 @@ try
     Set-Location -Path "../../.."
     $rootSrcDir = "src";
 
-	Write-Host "Start db migration with $migrationFile" -ForegroundColor Green
-    docker build -f "$rootSrcDir/Infrastructure/Persistence/$migrationFile" -t svcodingcase.db.migration .
-    VerifyExitCode
-    docker run --rm --env-file "./assets/configuration-items/docker/env/db.env" --network svcodingcase_network_backend svcodingcase.db.migration
+    Write-Host "Start db migration with $migrationFile" -ForegroundColor Green
+    dotnet ef database update --project src\Infrastructure --startup-project src\WebUI
     VerifyExitCode
 
 

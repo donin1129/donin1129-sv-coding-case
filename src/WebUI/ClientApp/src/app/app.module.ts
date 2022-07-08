@@ -10,6 +10,7 @@ import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
 import { CounterComponent } from './counter/counter.component';
+import { SearchEngineComponent } from './search-engine/search-engine.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { TodoComponent } from './todo/todo.component';
 import { TokenComponent } from './token/token.component';
@@ -18,6 +19,9 @@ import { ApiAuthorizationModule } from 'src/api-authorization/api-authorization.
 import { AuthorizeInterceptor } from 'src/api-authorization/authorize.interceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+
 
 @NgModule({
   declarations: [
@@ -25,6 +29,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     NavMenuComponent,
     HomeComponent,
     CounterComponent,
+    SearchEngineComponent,
     FetchDataComponent,
     TodoComponent,
     TokenComponent
@@ -35,6 +40,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     FormsModule,
     ApiAuthorizationModule,
     AppRoutingModule,
+    MatFormFieldModule,
+    MatInputModule,
     BrowserAnimationsModule,
     ModalModule.forRoot()
   ],

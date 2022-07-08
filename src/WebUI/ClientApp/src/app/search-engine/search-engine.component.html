@@ -1,0 +1,15 @@
+<h1>Search Engine</h1>
+
+<p>This component demonstrates fetching data from the server as a search engine.</p>
+
+<!--<p *ngIf="!orderedSearchResults"><em>Loading...</em></p>-->
+<p aria-live="polite">Current count: <strong>{{ currentCount }}</strong></p>
+
+<form class="example-form">
+  <mat-form-field class="example-full-width" appearance="fill">
+    <mat-label>Search string</mat-label>
+    <input matInput placeholder="Ex. HeadOffice" value={{ searchString }}>
+  </mat-form-field>
+</form>
+
+<button class="btn btn-primary" (click)="incrementCounter()">Increment</button>
