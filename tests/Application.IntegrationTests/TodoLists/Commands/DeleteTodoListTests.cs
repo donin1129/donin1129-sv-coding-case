@@ -1,4 +1,4 @@
-﻿using SvCodingCase.Application.Common.Exceptions;
+﻿/*using SvCodingCase.Application.Common.Exceptions;
 using SvCodingCase.Application.TodoLists.Commands.CreateTodoList;
 using SvCodingCase.Application.TodoLists.Commands.DeleteTodoList;
 using SvCodingCase.Domain.Entities;
@@ -33,3 +33,4 @@ public class DeleteTodoListTests : BaseTestFixture
         list.Should().BeNull();
     }
 }
+*/

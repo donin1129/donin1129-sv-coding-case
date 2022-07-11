@@ -1,0 +1,14 @@
+<h1>License Service</h1>
+
+<p>This component get the latest license for registered user.</p>
+
+<div *ngIf="latestLicense">
+  <p>Your latest license is: {{latestLicense}}</p>
+</div>
+
+
+<button class="btn btn-primary" (click)="getLatestLicense()">Get License</button>
+
+<p></p>
+
+<button class="btn btn-primary" (click)="generateNewLicense()">Generate New License</button>

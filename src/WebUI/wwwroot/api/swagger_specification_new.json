@@ -6,6 +6,40 @@
     "version": "1.0.0"
   },
   "paths": {
+    "/api/License": {
+      "post": {
+        "tags": [
+          "License"
+        ],
+        "operationId": "License_GenerateLicense",
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      },
+      "get": {
+        "tags": [
+          "License"
+        ],
+        "operationId": "License_GetLatestLicense",
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
     "/api/SearchEngine": {
       "get": {
         "tags": [

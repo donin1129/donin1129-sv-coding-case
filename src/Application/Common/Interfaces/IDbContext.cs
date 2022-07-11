@@ -13,5 +13,7 @@ public interface IDbContext
 
     DbSet<Media> Medias { get; }
 
+    DbSet<License> Licenses { get; }
+
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }

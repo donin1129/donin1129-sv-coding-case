@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using SvCodingCase.Infrastructure.LicensingService;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
@@ -27,8 +28,6 @@ public static class ConfigureServices
 
         services.AddScoped<IDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
 
-        services.AddScoped<ApplicationDbContextInitialiser>();
-
         services
             .AddDefaultIdentity<ApplicationUser>()
             .AddRoles<IdentityRole>()
@@ -37,10 +36,12 @@ public static class ConfigureServices
         services.AddIdentityServer()
             .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
 
-        services.AddTransient<IIdentityService, IdentityService>();
+        services.AddTransient<IIdentityService, LicensingService>();
 
-        services.AddAuthentication()
-            .AddIdentityServerJwt();
+        services.AddAuthentication().AddIdentityServerJwt();
+
+        services.AddSignalR();
+        services.AddSingleton<ILicenseGeneratorService, LicensingServiceHub>();
 
         services.AddAuthorization(options =>
             options.AddPolicy("CanPurge", policy => policy.RequireRole("Administrator")));

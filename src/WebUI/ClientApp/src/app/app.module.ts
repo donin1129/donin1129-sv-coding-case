@@ -9,6 +9,7 @@ import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
 import { SearchEngineComponent } from './search-engine/search-engine.component';
+import { LicenseComponent } from './license/license.component';
 import { TokenComponent } from './token/token.component';
 
 import { ApiAuthorizationModule } from 'src/api-authorization/api-authorization.module';
@@ -28,6 +29,7 @@ import { MatIconModule } from '@angular/material/icon'
     NavMenuComponent,
     HomeComponent,
     SearchEngineComponent,
+    LicenseComponent,
     TokenComponent
   ],
   imports: [

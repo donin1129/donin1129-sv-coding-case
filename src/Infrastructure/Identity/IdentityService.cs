@@ -6,13 +6,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace SvCodingCase.Infrastructure.Identity;
 
-public class IdentityService : IIdentityService
+public class LicensingService : IIdentityService
 {
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly IUserClaimsPrincipalFactory<ApplicationUser> _userClaimsPrincipalFactory;
     private readonly IAuthorizationService _authorizationService;
 
-    public IdentityService(
+    public LicensingService(
         UserManager<ApplicationUser> userManager,
         IUserClaimsPrincipalFactory<ApplicationUser> userClaimsPrincipalFactory,
         IAuthorizationService authorizationService)

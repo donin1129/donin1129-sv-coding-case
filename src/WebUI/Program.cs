@@ -1,4 +1,4 @@
-using SvCodingCase.Infrastructure.Persistence;
+using SvCodingCase.Infrastructure.LicensingService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,14 +14,6 @@ if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
     app.UseMigrationsEndPoint();
-
-    // Initialise and seed database
-    using (var scope = app.Services.CreateScope())
-    {
-        var initialiser = scope.ServiceProvider.GetRequiredService<ApplicationDbContextInitialiser>();
-        await initialiser.InitialiseAsync();
-        await initialiser.FillDataAsync();
-    }
 }
 else
 {
@@ -34,6 +26,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseOpenApi();
+
+// To automatically generate latest version of swagger documentation
 // app.UseSwaggerUi3();
 
 app.UseSwaggerUi3(settings =>
@@ -42,6 +36,8 @@ app.UseSwaggerUi3(settings =>
     settings.DocumentPath = "/api/swagger_specification_new.json";
 });
 
+
+app.MapHub<LicensingServiceHub>("/LicenseSignatureGenerator");
 
 app.UseRouting();
 

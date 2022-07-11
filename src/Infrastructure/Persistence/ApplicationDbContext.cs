@@ -33,6 +33,8 @@ public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>, 
 
     public DbSet<Media> Medias => Set<Media>();
 
+    public DbSet<License> Licenses => Set<License>();
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
         builder.HasPostgresEnum<LockType>();
