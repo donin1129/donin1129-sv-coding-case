@@ -9,7 +9,7 @@ using SvCodingCase.Domain.Entities;
 
 namespace SvCodingCase.Infrastructure.LicensingService;
 
-[Authorize]
+/*[Authorize]*/
 public class LicensingServiceHub : Hub, ILicenseGeneratorService
 {
 

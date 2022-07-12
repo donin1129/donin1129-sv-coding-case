@@ -10,6 +10,8 @@ public sealed class SignalRConsumer : IAsyncDisposable
 
     public SignalRConsumer(string hostDomain)
     {
+        // TODO-ZD: Add oicd auth workflow
+
         _hostDomain = hostDomain;
 
         Console.WriteLine("Initializing SignalR client. ");
